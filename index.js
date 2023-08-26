@@ -44,6 +44,11 @@ app.delete("/api/persons/:id", (req, res) => {
   res.status(204).end();
 });
 
+app.post("/api/persons", (req, res) => {
+  const person = { ...req.body, id: Math.floor(Math.random() * 1000) };
+  res.send(person).status(201);
+});
+
 app.get("/info", (req, res) => {
   const numberOfEntries = data.length;
   const date = new Date().toString();
