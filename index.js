@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.json());
 
-const data = [
+let data = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -31,8 +31,17 @@ app.get("/api/persons", (req, res) => {
 });
 
 app.get("/api/persons/:id", (req, res) => {
-    const person = data.find(d => d.id.toString() === req.params.id)
+  const person = data.find((d) => d.id.toString() === req.params.id);
+  if (person) {
     res.send(person).status(200);
+  } else {
+    res.send("Resource Not Found").status(404).end();
+  }
+});
+
+app.delete("/api/persons/:id", (req, res) => {
+  data = data.filter((d) => d.id.toString() !== req.params.id);
+  res.status(204).end();
 });
 
 app.get("/info", (req, res) => {
