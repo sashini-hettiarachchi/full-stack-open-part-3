@@ -30,6 +30,11 @@ app.get("/api/persons", (req, res) => {
   res.send(data).status(200);
 });
 
+app.get("/api/persons/:id", (req, res) => {
+    const person = data.find(d => d.id.toString() === req.params.id)
+    res.send(person).status(200);
+});
+
 app.get("/info", (req, res) => {
   const numberOfEntries = data.length;
   const date = new Date().toString();
