@@ -45,7 +45,28 @@ app.delete("/api/persons/:id", (req, res) => {
 });
 
 app.post("/api/persons", (req, res) => {
+  if (!req.body.name) {
+    return res.status(400).json({
+      error: "Name is missing",
+    });
+  }
+  if (!req.body.number) {
+    return res.status(400).json({
+      error: "Number is missing",
+    });
+  }
+
+  const isNameExists = data.findIndex((d) => d.name === req.body.name) >= 0;
+
+  if (isNameExists) {
+    return res.status(400).json({
+      error: "Name should be unique",
+    });
+  }
   const person = { ...req.body, id: Math.floor(Math.random() * 1000) };
+
+  data.push(person);
+
   res.send(person).status(201);
 });
 
