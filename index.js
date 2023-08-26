@@ -3,8 +3,11 @@ const app = express();
 const morgan = require("morgan");
 
 app.use(express.json());
-app.use(morgan("tiny"));
-
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms - :req-body"
+  )
+);
 let data = [
   {
     id: 1,
@@ -68,7 +71,9 @@ app.post("/api/persons", (req, res) => {
   const person = { ...req.body, id: Math.floor(Math.random() * 1000) };
 
   data.push(person);
-
+  morgan.token("req-body", function (req, res) {
+    return JSON.stringify(req.body);
+  });
   res.send(person).status(201);
 });
 
